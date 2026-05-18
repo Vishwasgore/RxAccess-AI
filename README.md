@@ -1,4 +1,10 @@
-# RxAccess AI - Intelligent Prescription Access & Adherence Platform
+# RxAccess AI — Intelligent Prescription Access & Adherence Platform
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-rxaccess--ai.streamlit.app-1a73e8?style=for-the-badge&logo=streamlit)](https://rxaccess-ai.streamlit.app/)
+
+> **🚀 Try it live:** [https://rxaccess-ai.streamlit.app](https://rxaccess-ai.streamlit.app/)
+
+---
 
 ## 🎯 Project Overview
 
