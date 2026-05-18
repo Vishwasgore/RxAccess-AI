@@ -3,6 +3,9 @@ Prescription Upload & Extraction Page
 Vision-first pipeline: image → Groq Vision AI → structured data
 Falls back to Tesseract OCR + LLM if vision fails
 """
+import os
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import streamlit as st
 import sys
 from pathlib import Path

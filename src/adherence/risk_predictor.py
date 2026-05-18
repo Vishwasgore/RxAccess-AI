@@ -147,13 +147,13 @@ class AdherenceRiskPredictor:
         # Different frequencies = higher complexity
         frequencies = set()
         for med in medications:
-            freq = med.get('frequency', '').lower()
+            freq = (med.get('frequency') or '').lower()
             frequencies.add(freq)
         complexity += min(len(frequencies) * 0.5, 2.0)
         
         # Special instructions = higher complexity
         for med in medications:
-            instructions = med.get('instructions', '').lower()
+            instructions = (med.get('instructions') or '').lower()
             if any(word in instructions for word in ['with food', 'before meals', 'at bedtime']):
                 complexity += 0.5
         
@@ -164,7 +164,7 @@ class AdherenceRiskPredictor:
         total_doses = 0.0
         
         for med in medications:
-            frequency = med.get('frequency', '').lower()
+            frequency = (med.get('frequency') or '').lower()
             
             if 'once' in frequency or 'daily' in frequency:
                 total_doses += 1
