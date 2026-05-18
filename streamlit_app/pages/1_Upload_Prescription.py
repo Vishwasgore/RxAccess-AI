@@ -1,7 +1,5 @@
 """
 Prescription Upload & Extraction Page
-Vision-first pipeline: image → Groq Vision AI → structured data
-Falls back to Tesseract OCR + LLM if vision fails
 """
 import os
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
@@ -9,19 +7,49 @@ os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 import streamlit as st
 import sys
 from pathlib import Path
-import io
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from src.utils.disclaimer import get_disclaimer
+st.markdown("""
+<style>
+.rx-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    border-left: 4px solid #1a73e8;
+    margin-bottom: 0.6rem;
+}
+.med-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+}
+.warn-card {
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.4rem;
+}
+.step-badge {
+    background: #1a73e8;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+}
+</style>
+""", unsafe_allow_html=True)
 
-st.title("📄 Prescription Upload & Extraction")
-st.markdown("Upload a prescription image or PDF — AI reads it even if blurry or handwritten.")
-
-with st.expander("⚠️ Disclaimer", expanded=False):
-    st.warning(get_disclaimer())
-
-# ── Cached resource loaders ──────────────────────────────────────────────────
+# ── Cached loaders ────────────────────────────────────────────────────────────
 @st.cache_resource
 def get_ocr_engine():
     from src.extraction.ocr_engine import OCREngine
@@ -37,224 +65,226 @@ def get_llm_extractor():
     from src.extraction.llm_extractor import LLMExtractor
     return LLMExtractor()
 
-# ── Upload UI ────────────────────────────────────────────────────────────────
-st.markdown("---")
-col1, col2 = st.columns([1, 1])
+# ── Header ────────────────────────────────────────────────────────────────────
+st.markdown("## 📄 Prescription Upload")
+st.caption("Upload a prescription to begin your medication analysis workflow.")
 
-with col1:
-    st.markdown("### 📁 Upload File")
+# ── Workflow steps ────────────────────────────────────────────────────────────
+c1, c2, c3, c4 = st.columns(4)
+with c1:
+    st.markdown('<div class="rx-card"><b>① Upload</b><br><small>Photo or PDF</small></div>', unsafe_allow_html=True)
+with c2:
+    st.markdown('<div class="rx-card"><b>② Extract</b><br><small>Smart analysis</small></div>', unsafe_allow_html=True)
+with c3:
+    st.markdown('<div class="rx-card"><b>③ Review</b><br><small>Medications & alerts</small></div>', unsafe_allow_html=True)
+with c4:
+    st.markdown('<div class="rx-card"><b>④ Act</b><br><small>PA · Cost · Adherence</small></div>', unsafe_allow_html=True)
+
+st.markdown("---")
+
+# ── Upload area ───────────────────────────────────────────────────────────────
+col_upload, col_preview = st.columns([1, 1])
+
+with col_upload:
     uploaded_file = st.file_uploader(
-        "Choose a prescription image or PDF",
+        "Choose a prescription file",
         type=["jpg", "jpeg", "png", "bmp", "tiff", "pdf"],
-        help="Supports JPG, PNG, BMP, TIFF, PDF — even blurry or handwritten"
+        help="Supports photos, scans, and PDFs — including handwritten prescriptions"
     )
 
     if uploaded_file:
         file_ext = Path(uploaded_file.name).suffix.lower()
         st.success(f"✅ **{uploaded_file.name}** ({uploaded_file.size / 1024:.1f} KB)")
 
+    # Advanced settings (collapsed by default)
+    with st.expander("⚙️ Advanced Settings", expanded=False):
+        extraction_mode = st.radio(
+            "Extraction Mode",
+            ["Smart Extraction (Recommended)", "Document Scan Mode", "Basic Text Mode"],
+            help="Smart Extraction handles blurry, handwritten, and low-quality images best."
+        )
+        show_raw = st.checkbox("Show raw extracted text", value=False)
+        redact_pii = st.checkbox("Anonymize patient information", value=False)
+    
+    # Map display names to internal modes
+    mode_map = {
+        "Smart Extraction (Recommended)": "vision",
+        "Document Scan Mode": "ocr_llm",
+        "Basic Text Mode": "ocr_only"
+    }
+    internal_mode = mode_map.get(extraction_mode if 'extraction_mode' in dir() else "Smart Extraction (Recommended)", "vision")
+
+with col_preview:
+    if uploaded_file:
+        file_ext = Path(uploaded_file.name).suffix.lower()
         if file_ext in [".jpg", ".jpeg", ".png", ".bmp", ".tiff"]:
             st.image(uploaded_file.getvalue(), caption="Uploaded Prescription", use_column_width=True)
         else:
-            st.info("📄 PDF ready for extraction")
+            st.markdown("""
+            <div style="background:#f0f4ff;border-radius:10px;padding:2rem;text-align:center;border:2px dashed #1a73e8;">
+                <div style="font-size:3rem">📄</div>
+                <div style="color:#1a73e8;font-weight:600">PDF Ready</div>
+                <div style="color:#666;font-size:0.85rem">Document will be processed automatically</div>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <div style="background:#f8f9fa;border-radius:10px;padding:2rem;text-align:center;border:2px dashed #ccc;">
+            <div style="font-size:3rem">📷</div>
+            <div style="color:#666;font-weight:500">Preview will appear here</div>
+            <div style="color:#999;font-size:0.8rem;margin-top:0.5rem">JPG · PNG · PDF · Handwritten</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-with col2:
-    st.markdown("### ⚙️ Extraction Settings")
-
-    extraction_mode = st.radio(
-        "Extraction Method",
-        ["🤖 AI Vision (Recommended)", "📝 OCR + AI", "📝 OCR Only"],
-        help="AI Vision sends the image directly to Groq — best for blurry/handwritten prescriptions"
-    )
-
-    show_raw = st.checkbox("Show raw extracted text", value=False)
-    redact_pii = st.checkbox("Redact patient PII", value=False)
-
-    st.markdown("---")
-    st.markdown("**💡 Tips for best results:**")
-    st.caption("• Good lighting, no shadows")
-    st.caption("• Hold camera directly above")
-    st.caption("• Keep text in focus")
-    st.caption("• AI Vision works even on blurry images")
-
-# ── Extract button ───────────────────────────────────────────────────────────
+# ── Extract button ────────────────────────────────────────────────────────────
 st.markdown("---")
 
-if uploaded_file and st.button("🔍 Extract Prescription Data", type="primary", use_container_width=True):
+if uploaded_file:
+    if st.button("🔍 Analyze Prescription", type="primary", use_container_width=True):
 
-    file_bytes = uploaded_file.getvalue()
-    file_ext = Path(uploaded_file.name).suffix.lower()
-    file_type = "pdf" if file_ext == ".pdf" else "image"
+        file_bytes = uploaded_file.getvalue()
+        file_ext = Path(uploaded_file.name).suffix.lower()
+        file_type = "pdf" if file_ext == ".pdf" else "image"
+        structured_data = None
 
-    structured_data = None
-    extraction_method_used = ""
-
-    # ── PATH A: AI Vision (image files only) ────────────────────────────────
-    if "Vision" in extraction_mode and file_type == "image":
-        with st.status("🤖 Analyzing image with Groq Vision AI...", expanded=True) as status:
-            st.write("Sending image to Groq Vision model...")
-            try:
-                vision = get_vision_extractor()
-                result = vision.extract(file_bytes)
-
-                if result["status"] in ("success", "partial") and result.get("data"):
-                    structured_data = result["data"]
-                    extraction_method_used = "Groq Vision AI (llama-4-scout)"
-                    status.update(label="✅ Vision extraction complete!", state="complete")
-                    st.write(f"Medications found: **{len(structured_data.get('medications', []))}**")
-
-                    if show_raw and result.get("raw_response"):
-                        with st.expander("📝 Raw AI Response"):
-                            st.text(result["raw_response"][:1000])
-                else:
-                    st.warning(f"Vision extraction issue: {result.get('error', 'Unknown')}. Falling back to OCR...")
-                    status.update(label="⚠️ Falling back to OCR...", state="running")
-
-            except Exception as e:
-                st.warning(f"Vision failed ({e}). Falling back to OCR...")
-                status.update(label="⚠️ Falling back to OCR...", state="running")
-
-    # ── PATH B: OCR + LLM (fallback or user choice) ─────────────────────────
-    if structured_data is None:
-        with st.status("🔎 Running OCR extraction...", expanded=True) as status:
-            st.write("Preprocessing image for better OCR accuracy...")
-
-            ocr_engine = get_ocr_engine()
-            ocr_result = ocr_engine.extract(file_bytes, file_type=file_type)
-
-            conf = ocr_result.get("confidence", 0)
-            text = ocr_result.get("text", "")
-
-            if ocr_result["status"] == "error":
-                status.update(label="❌ OCR failed", state="error")
-                st.error(f"OCR error: {ocr_result.get('error')}")
-                if file_type == "pdf":
-                    st.info("💡 Try saving the PDF as a PNG/JPG image and re-uploading.")
-                st.stop()
-
-            st.write(f"OCR confidence: **{conf:.1f}%** | Words extracted: **{ocr_result['word_count']}**")
-
-            if conf < 20:
-                st.warning("⚠️ Very low OCR confidence — image may be blurry. AI will attempt to interpret.")
-            elif conf < 50:
-                st.info("ℹ️ Moderate OCR confidence — AI will correct errors.")
-
-            if show_raw and text:
-                with st.expander("📝 Raw OCR Text"):
-                    st.text(text[:1000])
-
-            # LLM correction step
-            if "OCR Only" not in extraction_mode and text:
-                st.write("🤖 Sending to Groq AI for intelligent structuring...")
+        # Smart extraction (vision first, OCR fallback)
+        if internal_mode == "vision" and file_type == "image":
+            with st.status("Analyzing prescription...", expanded=True) as status:
+                st.write("Reading prescription content...")
                 try:
-                    extractor = get_llm_extractor()
-                    llm_result = extractor.extract_structured_data(text, confidence=conf)
-
-                    if llm_result["status"] in ("success", "partial") and llm_result.get("data"):
-                        structured_data = llm_result["data"]
-                        extraction_method_used = f"Tesseract OCR ({conf:.0f}%) + Groq AI correction"
-                        status.update(label="✅ OCR + AI extraction complete!", state="complete")
+                    vision = get_vision_extractor()
+                    result = vision.extract(file_bytes)
+                    if result["status"] in ("success", "partial") and result.get("data"):
+                        structured_data = result["data"]
+                        status.update(label="✅ Analysis complete", state="complete")
+                        st.write(f"Found **{len(structured_data.get('medications', []))} medication(s)**")
+                        if show_raw and result.get("raw_response"):
+                            with st.expander("Raw response"):
+                                st.text(result["raw_response"][:800])
                     else:
-                        structured_data = {"patient_name": None, "doctor_name": None,
-                                           "medications": [], "notes": text[:300], "diagnosis": None}
-                        extraction_method_used = f"Tesseract OCR only ({conf:.0f}%)"
-                        status.update(label="⚠️ Partial extraction", state="complete")
-                except Exception as e:
-                    st.warning(f"AI structuring failed: {e}")
-                    structured_data = {"patient_name": None, "doctor_name": None,
-                                       "medications": [], "notes": text[:300], "diagnosis": None}
-                    extraction_method_used = f"Tesseract OCR only ({conf:.0f}%)"
-                    status.update(label="⚠️ OCR only (AI unavailable)", state="complete")
-            else:
-                structured_data = {"patient_name": None, "doctor_name": None,
-                                   "medications": [], "notes": text[:300], "diagnosis": None}
-                extraction_method_used = f"Tesseract OCR only ({conf:.0f}%)"
-                status.update(label="✅ OCR extraction complete!", state="complete")
+                        st.write("Switching to document scan mode...")
+                        status.update(label="Switching to scan mode...", state="running")
+                except Exception:
+                    st.write("Switching to document scan mode...")
 
-    # ── Apply PII redaction ──────────────────────────────────────────────────
-    if redact_pii and structured_data:
-        from src.utils.pii_redaction import anonymize_prescription_data
-        structured_data = anonymize_prescription_data(structured_data, mode="partial")
+        # OCR + AI path
+        if structured_data is None:
+            with st.status("Processing document...", expanded=True) as status:
+                st.write("Scanning document text...")
+                ocr_engine = get_ocr_engine()
+                ocr_result = ocr_engine.extract(file_bytes, file_type=file_type)
+                conf = ocr_result.get("confidence", 0)
+                text = ocr_result.get("text", "")
 
-    # ── Save to session state ────────────────────────────────────────────────
-    st.session_state["prescription_data"] = structured_data
+                if ocr_result["status"] == "error":
+                    status.update(label="❌ Could not read document", state="error")
+                    st.error("Unable to read this file. Try a clearer image or different format.")
+                    st.stop()
 
-    # ── Display results ──────────────────────────────────────────────────────
-    st.markdown("---")
-    st.markdown("## ✅ Extracted Prescription Data")
-    st.caption(f"Extracted using: **{extraction_method_used}**")
+                if show_raw and text:
+                    with st.expander("Extracted text"):
+                        st.text(text[:800])
 
-    # Patient & Doctor
-    col_a, col_b = st.columns(2)
-    with col_a:
-        st.markdown("#### 👤 Patient")
-        st.info(f"""
-**Name:** {structured_data.get('patient_name') or '—'}
-**Age:** {structured_data.get('patient_age') or '—'}
-**Gender:** {structured_data.get('patient_gender') or '—'}
-        """)
-    with col_b:
-        st.markdown("#### 🩺 Provider")
-        st.info(f"""
-**Doctor:** {structured_data.get('doctor_name') or '—'}
-**Specialty:** {structured_data.get('doctor_specialty') or '—'}
-**Clinic:** {structured_data.get('clinic_name') or '—'}
-**Date:** {structured_data.get('prescription_date') or '—'}
-        """)
+                if internal_mode != "ocr_only" and text:
+                    st.write("Structuring medication data...")
+                    try:
+                        extractor = get_llm_extractor()
+                        llm_result = extractor.extract_structured_data(text, confidence=conf)
+                        if llm_result["status"] in ("success", "partial") and llm_result.get("data"):
+                            structured_data = llm_result["data"]
+                        else:
+                            structured_data = {"medications": [], "notes": text[:300]}
+                    except Exception:
+                        structured_data = {"medications": [], "notes": text[:300]}
+                else:
+                    structured_data = {"medications": [], "notes": text[:300]}
 
-    # Diagnosis
-    if structured_data.get("diagnosis"):
-        st.markdown("#### 🏥 Diagnosis")
-        st.success(f"**{structured_data['diagnosis']}**")
+                status.update(label="✅ Processing complete", state="complete")
 
-    # Medications
-    st.markdown("#### 💊 Medications")
-    medications = structured_data.get("medications", [])
+        # PII redaction
+        if redact_pii and structured_data:
+            try:
+                from src.utils.pii_redaction import anonymize_prescription_data
+                structured_data = anonymize_prescription_data(structured_data, mode="partial")
+            except Exception:
+                pass
 
-    if medications:
-        for i, med in enumerate(medications, 1):
-            with st.expander(f"💊 {i}. {med.get('name', 'Unknown Medication')}", expanded=True):
-                c1, c2, c3 = st.columns(3)
-                c1.metric("Dosage", med.get("dosage") or "—")
-                c2.metric("Frequency", med.get("frequency") or "—")
-                c3.metric("Duration", med.get("duration") or "—")
-                if med.get("quantity"):
-                    st.caption(f"📦 Quantity: {med['quantity']}")
-                if med.get("instructions"):
-                    st.caption(f"📋 Instructions: {med['instructions']}")
-    else:
-        st.warning("No medications detected. Try **AI Vision** mode or use a clearer image.")
+        st.session_state["prescription_data"] = structured_data
 
-    # Notes
-    if structured_data.get("notes"):
-        with st.expander("📝 Additional Notes"):
-            st.write(structured_data["notes"])
+        # ── Results ───────────────────────────────────────────────────────────
+        st.markdown("---")
+        st.markdown("## ✅ Prescription Summary")
 
-    # Raw JSON
-    with st.expander("🔧 Full JSON Data"):
-        st.json(structured_data)
+        medications = structured_data.get("medications", [])
 
-    # Navigation
-    st.markdown("---")
-    st.success("✅ Done! Navigate to other pages to explore features.")
-    c1, c2, c3 = st.columns(3)
-    c1.page_link("pages/2_Medical_Assistant.py", label="💬 Medical Assistant", icon="💬")
-    c2.page_link("pages/3_Prior_Authorization.py", label="📋 Prior Authorization", icon="📋")
-    c3.page_link("pages/4_Affordability.py", label="💰 Affordability", icon="💰")
+        # Patient & Provider cards
+        col_a, col_b = st.columns(2)
+        with col_a:
+            with st.container(border=True):
+                st.markdown("**👤 Patient**")
+                st.write(f"**Name:** {structured_data.get('patient_name') or '—'}")
+                st.write(f"**Age:** {structured_data.get('patient_age') or '—'}")
+                st.write(f"**Gender:** {structured_data.get('patient_gender') or '—'}")
+        with col_b:
+            with st.container(border=True):
+                st.markdown("**🩺 Prescriber**")
+                st.write(f"**Doctor:** {structured_data.get('doctor_name') or '—'}")
+                st.write(f"**Specialty:** {structured_data.get('doctor_specialty') or '—'}")
+                st.write(f"**Date:** {structured_data.get('prescription_date') or '—'}")
 
-# ── Demo mode ────────────────────────────────────────────────────────────────
-elif not uploaded_file:
-    st.info("👆 Upload a prescription above, or load demo data to explore features.")
+        # Diagnosis
+        if structured_data.get("diagnosis"):
+            st.info(f"🏥 **Diagnosis:** {structured_data['diagnosis']}")
 
+        # Medications
+        st.markdown(f"### 💊 Medications ({len(medications)} prescribed)")
+        if medications:
+            for i, med in enumerate(medications, 1):
+                with st.container(border=True):
+                    col_name, col_dose, col_freq, col_dur = st.columns([2, 1, 1, 1])
+                    col_name.markdown(f"**{i}. {med.get('name', 'Unknown')}**")
+                    col_dose.metric("Dose", med.get("dosage") or "—")
+                    col_freq.metric("Frequency", med.get("frequency") or "—")
+                    col_dur.metric("Duration", med.get("duration") or "—")
+                    if med.get("instructions"):
+                        st.caption(f"📋 {med['instructions']}")
+        else:
+            st.warning("No medications detected. Try uploading a clearer image.")
+
+        # Notes
+        if structured_data.get("notes"):
+            with st.expander("📝 Clinical Notes"):
+                st.write(structured_data["notes"])
+
+        # Next steps
+        st.markdown("---")
+        st.markdown("### 🚀 Recommended Next Steps")
+        n1, n2, n3, n4 = st.columns(4)
+        with n1:
+            st.page_link("pages/2_Medical_Assistant.py", label="💬 Ask About Medications", icon="💬")
+        with n2:
+            st.page_link("pages/3_Prior_Authorization.py", label="📋 Prior Authorization", icon="📋")
+        with n3:
+            st.page_link("pages/4_Affordability.py", label="💰 Check Costs", icon="💰")
+        with n4:
+            st.page_link("pages/5_Adherence_Intelligence.py", label="📊 Adherence Plan", icon="📊")
+
+else:
+    # No file uploaded — demo option
+    st.markdown("""
+    <div style="background:#f0f4ff;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #c5d8ff;">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem">📋</div>
+        <div style="font-weight:600;color:#1a73e8;margin-bottom:0.3rem">Upload a prescription to get started</div>
+        <div style="color:#666;font-size:0.9rem">Or try the demo to explore all features</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("")
     if st.button("🎯 Load Demo Prescription", use_container_width=True):
         st.session_state["prescription_data"] = {
-            "patient_name": "John Doe",
-            "patient_age": 52,
-            "patient_gender": "Male",
-            "doctor_name": "Dr. Sarah Johnson",
-            "doctor_specialty": "Cardiology",
-            "clinic_name": "City Medical Center",
-            "prescription_date": "2024-01-15",
+            "patient_name": "John Doe", "patient_age": 52, "patient_gender": "Male",
+            "doctor_name": "Dr. Sarah Johnson", "doctor_specialty": "Cardiology",
+            "clinic_name": "City Medical Center", "prescription_date": "2024-01-15",
             "diagnosis": "Hypertension, Type 2 Diabetes",
             "medications": [
                 {"name": "Lisinopril", "dosage": "10mg", "frequency": "Once daily",
@@ -266,3 +296,6 @@ elif not uploaded_file:
         }
         st.success("✅ Demo prescription loaded!")
         st.rerun()
+
+    st.markdown("")
+    st.caption("⚠️ For demonstration purposes only. Not for clinical use.")
