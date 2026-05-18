@@ -136,7 +136,7 @@ if st.button("🔮 Predict Adherence Risk", type="primary", use_container_width=
             if not reminders:
                 # Generate from prescription data directly
                 for med in prescription_data.get("medications", []):
-                    freq = med.get("frequency", "once daily").lower()
+                    freq = (med.get("frequency") or "once daily").lower()
                     times = ["09:00"] if "once" in freq else ["09:00", "21:00"] if "twice" in freq else ["08:00", "14:00", "20:00"]
                     for t in times:
                         reminders.append({"medication": med.get("name"), "time": t, "dosage": med.get("dosage", ""), "instructions": med.get("instructions", "Take as directed")})

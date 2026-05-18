@@ -4,7 +4,7 @@ Personalized adherence intervention generation using LLM
 from typing import Dict, Any, List
 from src.config import get_llm_config
 from src.utils.logger import get_logger
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 logger = get_logger(__name__)
 
