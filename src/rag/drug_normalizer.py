@@ -111,6 +111,13 @@ BRAND_TO_GENERIC: Dict[str, str] = {
     "combiflam": "ibuprofen-paracetamol", "brufen": "ibuprofen",
     "pan": "pantoprazole", "rantac": "ranitidine",
     "ecosprin": "aspirin", "disprin": "aspirin",
+    "montmorency": "cholecalciferol (vitamin d3)",
+    "cholecalciferol": "cholecalciferol (vitamin d3)",
+    "calciferol": "cholecalciferol (vitamin d3)",
+    "vitamin d3": "cholecalciferol (vitamin d3)",
+    "vitamin d": "cholecalciferol (vitamin d3)",
+    "calcivit": "cholecalciferol (vitamin d3)",
+    "d3": "cholecalciferol (vitamin d3)",
 }
 
 # Generic name aliases (different spellings/names for same drug)

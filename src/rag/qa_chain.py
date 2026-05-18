@@ -165,12 +165,15 @@ PATIENT PRESCRIPTION: {prescription_context}
 RETRIEVED KNOWLEDGE: {retrieved_context}
 QUESTION: {question}
 
-Provide a clear, structured clinical answer. Use bullet points where appropriate.
-Synthesize information from ALL retrieved chunks, not just the first one.
-Be concise (max 200 words). Prioritize clinical accuracy over completeness.
-End with one brief practical recommendation.
+Instructions:
+- If the drug is found in retrieved knowledge, give a structured clinical answer
+- If the drug is NOT found, say so in ONE sentence, then use your general medical knowledge to answer
+- Never repeat disclaimers more than once
+- Be concise — max 150 words
+- Use bullet points for clarity
+- End with ONE brief recommendation
 
-Do not add lengthy disclaimers — one short note at the end is sufficient.""",
+If the drug name looks like a brand name or regional name, mention what it likely is.""",
 }
 
 INTERACTION_PROMPT = """You are a clinical pharmacist performing a drug interaction check.
