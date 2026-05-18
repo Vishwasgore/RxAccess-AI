@@ -9,8 +9,6 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-st.set_page_config(page_title="Dashboards - RxAccess AI", page_icon="📈", layout="wide")
-
 st.title("📈 Multi-Stakeholder Dashboards")
 st.markdown("Role-specific views for patients, providers, pharmacies, and pharma companies.")
 

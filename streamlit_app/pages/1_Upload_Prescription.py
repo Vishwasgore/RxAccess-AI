@@ -12,8 +12,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.utils.disclaimer import get_disclaimer
 
-st.set_page_config(page_title="Upload Prescription - RxAccess AI", page_icon="📄", layout="wide")
-
 st.title("📄 Prescription Upload & Extraction")
 st.markdown("Upload a prescription image or PDF — AI reads it even if blurry or handwritten.")
 

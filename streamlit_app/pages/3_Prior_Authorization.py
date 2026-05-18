@@ -10,8 +10,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.utils.disclaimer import get_pa_disclaimer
 
-st.set_page_config(page_title="Prior Authorization - RxAccess AI", page_icon="📋", layout="wide")
-
 st.title("📋 Prior Authorization Assistant")
 st.markdown("Generate PA forms, predict approval likelihood, and track submission status.")
 

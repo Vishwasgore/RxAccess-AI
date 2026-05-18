@@ -9,8 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.utils.disclaimer import get_affordability_disclaimer
 
-st.set_page_config(page_title="Affordability - RxAccess AI", page_icon="💰", layout="wide")
-
 st.title("💰 Affordability & Access Intelligence")
 st.markdown("Estimate insurance coverage, compare costs, and find patient assistance programs.")
 

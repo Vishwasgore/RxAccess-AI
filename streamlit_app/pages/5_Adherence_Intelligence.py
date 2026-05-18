@@ -9,8 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.utils.disclaimer import get_adherence_disclaimer
 
-st.set_page_config(page_title="Adherence Intelligence - RxAccess AI", page_icon="📊", layout="wide")
-
 st.title("📊 Adherence Intelligence")
 st.markdown("AI-powered medication adherence risk prediction and personalized interventions.")
 
