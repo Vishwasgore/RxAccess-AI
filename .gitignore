@@ -1,0 +1,43 @@
+# Secrets — never commit
+.env
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+venv/
+env/
+.venv/
+
+# Large user uploads (not needed in repo)
+data/uploads/*
+!data/uploads/.gitkeep
+
+# Logs
+logs/*.log
+logs/*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# NOTE: Keep these in the repo for deployment:
+# data/knowledge_base/   ← drug database JSON files
+# data/chroma_db/        ← vector store (pre-built)
+# models/                ← trained XGBoost model

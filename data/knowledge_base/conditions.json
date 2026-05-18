@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Hypertension (High Blood Pressure)",
+    "description": "Blood pressure consistently above 130/80 mmHg. Often called the 'silent killer' because it has no symptoms.",
+    "lifestyle": "Reduce sodium (<2300mg/day), DASH diet, regular exercise (150 min/week), limit alcohol, quit smoking, manage stress, maintain healthy weight.",
+    "monitoring": "Check blood pressure daily at home, same time each day. Keep a log. Target: below 130/80 mmHg.",
+    "warning_signs": "Severe headache, vision changes, chest pain, shortness of breath \u2014 seek emergency care immediately.",
+    "medications": "ACE inhibitors, ARBs, calcium channel blockers, diuretics, beta-blockers"
+  },
+  {
+    "name": "Type 2 Diabetes",
+    "description": "Chronic condition where the body doesn't use insulin properly, causing high blood sugar levels.",
+    "lifestyle": "Low-carb or Mediterranean diet, regular exercise, weight loss (even 5-10% helps significantly), quit smoking.",
+    "monitoring": "Check blood sugar as directed. HbA1c every 3 months. Target HbA1c: below 7% for most patients.",
+    "warning_signs": "Very high blood sugar: extreme thirst, frequent urination, blurred vision. Low blood sugar: shakiness, sweating, confusion.",
+    "medications": "Metformin (first-line), GLP-1 agonists, SGLT2 inhibitors, sulfonylureas, insulin"
+  },
+  {
+    "name": "High Cholesterol (Hyperlipidemia)",
+    "description": "Elevated LDL cholesterol increases risk of heart attack and stroke.",
+    "lifestyle": "Heart-healthy diet (reduce saturated fat, trans fat), increase fiber, regular exercise, quit smoking.",
+    "monitoring": "Lipid panel every 3-12 months depending on treatment. Target LDL depends on cardiovascular risk.",
+    "warning_signs": "High cholesterol itself has no symptoms \u2014 regular testing is essential.",
+    "medications": "Statins (first-line), ezetimibe, PCSK9 inhibitors, fibrates, niacin"
+  },
+  {
+    "name": "Hypothyroidism",
+    "description": "Underactive thyroid gland producing insufficient thyroid hormone, slowing metabolism.",
+    "lifestyle": "Consistent medication timing is crucial. Avoid excessive iodine. Regular monitoring.",
+    "monitoring": "TSH levels every 6-12 months once stable. Symptoms: fatigue, weight gain, cold intolerance, constipation.",
+    "warning_signs": "Myxedema coma (rare): extreme fatigue, low body temperature, confusion \u2014 medical emergency.",
+    "medications": "Levothyroxine (T4 replacement) \u2014 take on empty stomach, same time daily"
+  },
+  {
+    "name": "Asthma",
+    "description": "Chronic inflammatory airway disease causing episodes of wheezing, breathlessness, chest tightness, and coughing.",
+    "lifestyle": "Identify and avoid triggers (allergens, smoke, exercise, cold air). Use peak flow meter. Have action plan.",
+    "monitoring": "Peak flow monitoring. Spirometry annually. Count rescue inhaler use \u2014 more than 2x/week = poor control.",
+    "warning_signs": "Severe breathlessness, unable to speak in full sentences, blue lips/fingertips \u2014 call 911.",
+    "medications": "Rescue: albuterol (SABA). Controller: inhaled corticosteroids, LABAs, montelukast, biologics"
+  }
+]

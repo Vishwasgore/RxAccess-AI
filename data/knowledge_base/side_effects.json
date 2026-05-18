@@ -1,0 +1,141 @@
+{
+  "Lisinopril": {
+    "common": [
+      "Dry cough (10-15% of patients)",
+      "Dizziness",
+      "Headache",
+      "Fatigue",
+      "Nausea"
+    ],
+    "serious": [
+      "Angioedema (face/throat swelling \u2014 EMERGENCY)",
+      "Severe hypotension",
+      "Acute kidney injury",
+      "Hyperkalemia"
+    ],
+    "management": "The dry cough is the most common reason to switch to an ARB (like losartan). Rise slowly from sitting/lying. Report any facial swelling immediately \u2014 it is a medical emergency."
+  },
+  "Metformin": {
+    "common": [
+      "Nausea",
+      "Diarrhea",
+      "Stomach upset",
+      "Metallic taste",
+      "Loss of appetite"
+    ],
+    "serious": [
+      "Lactic acidosis (rare but serious)",
+      "Vitamin B12 deficiency with long-term use"
+    ],
+    "management": "GI side effects usually improve after 2-4 weeks. Take with food. Extended-release formulation causes fewer GI side effects. Get B12 levels checked annually."
+  },
+  "Atorvastatin": {
+    "common": [
+      "Muscle aches (myalgia)",
+      "Headache",
+      "Nausea",
+      "Joint pain",
+      "Diarrhea"
+    ],
+    "serious": [
+      "Rhabdomyolysis (severe muscle breakdown \u2014 rare)",
+      "Liver damage",
+      "New-onset diabetes"
+    ],
+    "management": "Report any unexplained muscle pain, weakness, or dark urine immediately. Avoid grapefruit juice. Liver function tests recommended before starting."
+  },
+  "Amlodipine": {
+    "common": [
+      "Ankle/foot swelling (peripheral edema)",
+      "Flushing",
+      "Headache",
+      "Dizziness",
+      "Palpitations"
+    ],
+    "serious": [
+      "Severe hypotension",
+      "Worsening angina when starting treatment"
+    ],
+    "management": "Ankle swelling is common and usually harmless \u2014 elevating legs helps. Flushing and headache usually improve after a few weeks."
+  },
+  "Metoprolol": {
+    "common": [
+      "Fatigue",
+      "Slow heart rate",
+      "Dizziness",
+      "Cold hands/feet",
+      "Depression"
+    ],
+    "serious": [
+      "Severe bradycardia",
+      "Heart block",
+      "Bronchospasm in asthmatics",
+      "Masking hypoglycemia symptoms"
+    ],
+    "management": "Never stop abruptly \u2014 can cause rebound hypertension or angina. Monitor pulse. Avoid in asthma."
+  },
+  "Sertraline": {
+    "common": [
+      "Nausea (usually improves)",
+      "Insomnia or drowsiness",
+      "Diarrhea",
+      "Dry mouth",
+      "Sexual dysfunction",
+      "Sweating"
+    ],
+    "serious": [
+      "Serotonin syndrome",
+      "Increased suicidal thoughts (especially in young adults, first weeks)",
+      "Bleeding risk"
+    ],
+    "management": "Takes 2-4 weeks for full antidepressant effect. Take with food for nausea. Do not stop abruptly \u2014 taper over weeks."
+  },
+  "Omeprazole": {
+    "common": [
+      "Headache",
+      "Nausea",
+      "Diarrhea",
+      "Abdominal pain",
+      "Flatulence"
+    ],
+    "serious": [
+      "C. difficile infection",
+      "Hypomagnesemia",
+      "Bone fractures (long-term use)",
+      "B12 deficiency"
+    ],
+    "management": "Take 30-60 minutes before first meal. Reassess need every 3-6 months. Long-term use should be medically justified."
+  },
+  "Gabapentin": {
+    "common": [
+      "Drowsiness",
+      "Dizziness",
+      "Ataxia (unsteady gait)",
+      "Fatigue",
+      "Weight gain",
+      "Peripheral edema"
+    ],
+    "serious": [
+      "Respiratory depression (with CNS depressants)",
+      "Suicidal ideation",
+      "Withdrawal seizures if stopped abruptly"
+    ],
+    "management": "Start low and increase slowly. Avoid alcohol and other CNS depressants. Do not drive until you know how it affects you."
+  },
+  "Albuterol": {
+    "common": [
+      "Tremor",
+      "Palpitations",
+      "Tachycardia",
+      "Headache",
+      "Nervousness",
+      "Throat irritation"
+    ],
+    "serious": [
+      "Paradoxical bronchospasm",
+      "Severe hypokalemia",
+      "Cardiac arrhythmias"
+    ],
+    "management": "Shake inhaler before use. Rinse mouth after use. If needed more than 2 days/week, asthma is not well-controlled \u2014 see doctor."
+  }
+}

@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  rxaccess-ai:
+    build: .
+    container_name: rxaccess-ai
+    ports:
+      - "8501:8501"
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+    environment:
+      - LLM_PROVIDER=ollama
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - DEBUG=True
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    networks:
+      - rxaccess-network
+
+networks:
+  rxaccess-network:
+    driver: bridge

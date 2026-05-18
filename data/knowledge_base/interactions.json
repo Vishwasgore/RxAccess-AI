@@ -1,0 +1,86 @@
+[
+  {
+    "drug1": "Lisinopril",
+    "drug2": "Ibuprofen",
+    "severity": "Moderate",
+    "description": "NSAIDs reduce the antihypertensive effect of ACE inhibitors and increase risk of acute kidney injury (triple whammy with diuretics).",
+    "recommendation": "Use acetaminophen instead. If NSAID needed, monitor blood pressure and kidney function closely."
+  },
+  {
+    "drug1": "Metformin",
+    "drug2": "Alcohol",
+    "severity": "Moderate",
+    "description": "Alcohol increases the risk of lactic acidosis with metformin, especially with binge drinking.",
+    "recommendation": "Limit alcohol to 1-2 drinks occasionally. Avoid heavy drinking entirely."
+  },
+  {
+    "drug1": "Warfarin",
+    "drug2": "Aspirin",
+    "severity": "High",
+    "description": "Combination significantly increases bleeding risk. Both inhibit clotting through different mechanisms.",
+    "recommendation": "Only use together under close medical supervision with regular INR monitoring."
+  },
+  {
+    "drug1": "Metoprolol",
+    "drug2": "Verapamil",
+    "severity": "High",
+    "description": "Both slow heart rate and conduction. Combination can cause severe bradycardia, heart block, or cardiac arrest.",
+    "recommendation": "Avoid combination. If necessary, use with extreme caution and cardiac monitoring."
+  },
+  {
+    "drug1": "Sertraline",
+    "drug2": "Tramadol",
+    "severity": "High",
+    "description": "Risk of serotonin syndrome \u2014 potentially life-threatening condition with agitation, fever, rapid heart rate.",
+    "recommendation": "Avoid combination. Use alternative pain medication."
+  },
+  {
+    "drug1": "Atorvastatin",
+    "drug2": "Clarithromycin",
+    "severity": "Moderate",
+    "description": "Clarithromycin inhibits CYP3A4, increasing atorvastatin levels and risk of myopathy/rhabdomyolysis.",
+    "recommendation": "Temporarily stop atorvastatin during short antibiotic course, or use azithromycin instead."
+  },
+  {
+    "drug1": "Levothyroxine",
+    "drug2": "Calcium supplements",
+    "severity": "Moderate",
+    "description": "Calcium binds levothyroxine in the gut, reducing absorption by up to 40%.",
+    "recommendation": "Take levothyroxine at least 4 hours before or after calcium supplements."
+  },
+  {
+    "drug1": "Gabapentin",
+    "drug2": "Opioids",
+    "severity": "High",
+    "description": "Combination significantly increases risk of respiratory depression and death.",
+    "recommendation": "Avoid combination if possible. If necessary, use lowest effective doses with close monitoring."
+  },
+  {
+    "drug1": "Lisinopril",
+    "drug2": "Potassium supplements",
+    "severity": "Moderate",
+    "description": "ACE inhibitors already raise potassium levels. Adding supplements can cause dangerous hyperkalemia.",
+    "recommendation": "Monitor potassium levels closely. Avoid potassium supplements unless specifically prescribed."
+  },
+  {
+    "drug1": "Metformin",
+    "drug2": "Contrast dye",
+    "severity": "Moderate",
+    "description": "Contrast dye can cause acute kidney injury, which impairs metformin clearance and increases lactic acidosis risk.",
+    "recommendation": "Hold metformin 48 hours before and after contrast procedures. Restart only after kidney function confirmed normal."
+  },
+  {
+    "drug1": "Amlodipine",
+    "drug2": "Simvastatin",
+    "severity": "Moderate",
+    "description": "Amlodipine inhibits CYP3A4, increasing simvastatin levels and risk of myopathy.",
+    "recommendation": "Limit simvastatin dose to 20mg/day when combined with amlodipine. Consider switching to atorvastatin."
+  },
+  {
+    "drug1": "Aspirin",
+    "drug2": "Ibuprofen",
+    "severity": "Moderate",
+    "description": "Ibuprofen can block aspirin's antiplatelet effect when taken together, reducing cardiovascular protection.",
+    "recommendation": "Take aspirin at least 30 minutes before ibuprofen, or use acetaminophen for pain instead."
+  }
+]
