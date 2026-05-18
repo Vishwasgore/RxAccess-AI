@@ -1,61 +1,55 @@
 # Core Framework
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-streamlit==1.31.0
-python-multipart==0.0.6
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+streamlit>=1.31.0
+python-multipart>=0.0.6
 
 # LLM & AI
-langchain==0.1.6
-langchain-community==0.0.20
-langchain-openai==0.0.5
-openai==1.12.0
-tiktoken>=0.6.0
+langchain>=0.1.6
+langchain-community>=0.0.20
+langchain-openai>=0.0.5
+openai>=1.12.0
+tiktoken>=0.7.0
 
 # Vector Store
-chromadb==0.4.22
+chromadb>=0.4.22
 
-# Embeddings (lighter alternative to sentence-transformers)
-sentence-transformers==2.3.1
+# Embeddings
+sentence-transformers>=2.3.1
 
 # OCR
-pytesseract==0.3.10
+pytesseract>=0.3.10
 Pillow>=10.3.0
-pdf2image==1.17.0
+pdf2image>=1.17.0
 
 # ML & Data Science
-scikit-learn==1.4.0
-xgboost==2.0.3
-pandas==2.2.0
-numpy==1.26.3
-matplotlib==3.8.2
-seaborn==0.13.2
+scikit-learn>=1.4.0
+xgboost>=2.0.3
+pandas>=2.2.0
+numpy>=1.26.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
 
 # Utilities
-python-dotenv==1.0.1
+python-dotenv>=1.0.0
 pydantic>=2.6.0
 pydantic-settings>=2.1.0
-requests==2.31.0
-aiofiles==23.2.1
+requests>=2.31.0
+aiofiles>=23.2.0
 
 # Database
-sqlalchemy==2.0.25
+sqlalchemy>=2.0.0
 
 # Logging
-loguru==0.7.2
-
-# Testing
-pytest==7.4.4
-pytest-asyncio==0.23.4
-pytest-cov==4.1.0
-httpx==0.26.0
+loguru>=0.7.0
 
 # Security
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-bcrypt==4.1.2
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+bcrypt>=4.1.0
 
 # Data Generation
-Faker==22.6.0
+Faker>=22.0.0
 
 # PDF text extraction
 pymupdf>=1.23.0
