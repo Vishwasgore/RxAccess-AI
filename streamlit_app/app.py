@@ -2,6 +2,10 @@
 RxAccess AI — Homepage
 Clean, guided workflow UX for healthcare professionals and patients.
 """
+import os
+# Fix protobuf compatibility with ChromaDB on deployment
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import streamlit as st
 
 st.set_page_config(

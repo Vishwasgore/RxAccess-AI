@@ -2,6 +2,9 @@
 RAG-Powered Medical Assistant Page
 Dynamic suggested questions based on actual prescription data
 """
+import os
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 import streamlit as st
 import sys
 from pathlib import Path
