@@ -2,6 +2,7 @@
 headless = true
 enableCORS = false
 enableXsrfProtection = false
+folderWatchBlacklist = ["transformers", "torch", "sentence_transformers", "chromadb"]
 
 [browser]
 gatherUsageStats = false
@@ -14,5 +15,4 @@ textColor = "#202124"
 font = "sans serif"
 
 [runner]
-# Fix protobuf compatibility issue with ChromaDB
 magicEnabled = true

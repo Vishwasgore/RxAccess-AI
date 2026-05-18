@@ -97,7 +97,7 @@ if st.button("🔮 Predict Adherence Risk", type="primary", use_container_width=
 
             st.markdown(f"## :{color}[{risk_pct}%]")
             st.caption("Non-adherence probability")
-            st.progress(risk_score)
+            st.progress(float(risk_score))
 
         with col_info:
             st.markdown("#### 📋 Risk Factors Identified")
